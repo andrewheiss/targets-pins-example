@@ -1,0 +1,24 @@
+services: 
+  election-testing-redis:
+    image: redis:alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    networks: 
+      - election-testing
+
+  election-testing-web: 
+    build: .
+    stop_signal: SIGINT  # flask requires SIGINT to stop gracefully
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/app
+    depends_on:
+      - election-testing-redis
+    networks: 
+      - election-testing
+
+networks:
+  election-testing:
