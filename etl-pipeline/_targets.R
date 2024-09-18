@@ -27,8 +27,8 @@ counties <- tribble(
   "Madison",    1
 ) |> 
   mutate(url = glue::glue(
-    "http://localhost:8000/county?county={URLencode(county)}"
-    # "https://election-testing.andhs.co/county?county={URLencode(county)}"
+    # "http://localhost:8000/county?county={URLencode(county)}"
+    "https://election-testing.andhs.co/county?county={URLencode(county)}"
   )) |> 
   # Create an R-friendly object name for each county
   mutate(
