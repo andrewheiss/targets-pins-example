@@ -10,8 +10,10 @@
 There are two pipelines that illustrate how {targets} can be used to
 orchestrate ETL processing:
 
-1.  `_targets_manual.R`: This defines a set of three targets for each
-    county:
+1.  *Note! This is just for illustrating the manual process of builting
+    county-specific targets. IRL, the other targets pipeline (see below)
+    is much better and more automatic.* `_targets_manual.R`: This
+    defines a set of three targets for each county:
 
     - `results_COUNTY_change`: This checks the API to see if results
       have changed since the last time they were collected. The object
@@ -21,9 +23,9 @@ orchestrate ETL processing:
     - `pinned_COUNTY`: This object contains the name of the object that
       is pinned at the pinboard data store.
 
-2.  `_targets_branches.R`: This [dynamically defines a set of
-    targets](https://books.ropensci.org/targets/static.html) for each
-    county instead of needing to define each one manually:
+2.  `_targets.R`: This [dynamically defines a set of targets using
+    static branching](https://books.ropensci.org/targets/static.html)
+    for each county instead of needing to define each one manually:
 
     - `results_change_COUNTY`: This checks the API to see if results
       have changed since the last time they were collected. The object
