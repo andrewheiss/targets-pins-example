@@ -24,7 +24,7 @@ parse_clean_county <- function(county, url) {
   )
 }
 
-pin_county <- function(x, name) {
+pin_object <- function(x, name) {
   library(pins)
 
   board <- board_folder("../pins")

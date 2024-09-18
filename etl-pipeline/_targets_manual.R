@@ -25,7 +25,7 @@ list(
   # Store the latest data through pins
   tar_target(
     pinned_ada,
-    pin_county(results_ada, name = "ada_cleaned")
+    pin_object(results_ada, name = "ada_cleaned")
   ),
 
   # Do it again for another county
@@ -36,7 +36,7 @@ list(
   ),
   tar_target(
     pinned_canyon,
-    pin_county(results_canyon, name = "canyon_cleaned")
+    pin_object(results_canyon, name = "canyon_cleaned")
   ),
 
   # And again
@@ -47,7 +47,7 @@ list(
   ),
   tar_target(
     pinned_kootenai,
-    pin_county(results_kootenai, name = "kootenai_cleaned")
+    pin_object(results_kootenai, name = "kootenai_cleaned")
   )
 
   # AND SO ON for all the other counties or precincts or whatever
