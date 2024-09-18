@@ -4,7 +4,7 @@ suppressPackageStartupMessages(library(dplyr))
 
 # Set target options
 tar_option_set(
-  packages = c("tibble"),  # Packages that all target functions have access to
+  packages = c("dplyr"),  # Packages that all target functions have access to
   format = "qs",  # Store finished targets with qs instead of rds
   controller = crew::crew_controller_local(workers = 4, seconds_idle = 60)  # Use 4 workers
 )
@@ -17,23 +17,27 @@ tar_source()
 # IN REAL LIFE this wouldn't actuall work this way---you'd access the 
 # county-level data through a database or whatever, not an API
 counties <- tribble(
-  ~county,
-  "Ada",
-  "Canyon",
-  "Kootenai",
-  "Bonneville",
-  "Twin Falls",
-  "Bannock",
-  "Madison"
+  ~county,      ~congressional_district,
+  "Ada",        1,
+  "Canyon",     1, 
+  "Kootenai",   2,
+  "Bonneville", 2,
+  "Twin Falls", 1,
+  "Bannock",    2,
+  "Madison",    1
 ) |> 
   mutate(url = glue::glue(
-    "https://election-testing.andhs.co/county?county={URLencode(county)}"
+    "http://localhost:8000/county?county={URLencode(county)}"
+    # "https://election-testing.andhs.co/county?county={URLencode(county)}"
   )) |> 
   # Create an R-friendly object name for each county
-  mutate(target_name = janitor::make_clean_names(county))
+  mutate(
+    target_name = janitor::make_clean_names(county),
+    results_target_name = paste0("results_", target_name)
+  )
 
-# The actual pipeline
-list(
+
+cleaned_counties <- list(
   # tar_map() dynamically builds a bunch of targets based on a list or dataframe
   # Here, it uses the `counties` dataframe
   tar_map(
@@ -52,7 +56,61 @@ list(
     # Store the latest data through pins
     tar_target(
       pinned,
-      pin_county(results, name = paste0(target_name, "_cleaned"))
+      pin_object(results, name = paste0(target_name, "_cleaned"))
     )
   )
+)
+
+# The actual pipeline
+list(
+  cleaned_counties,
+
+  tar_combine(
+    presidential_counties,
+    tar_select_targets(cleaned_counties, any_of(counties$results_target_name)),
+    command = list(!!!.x)
+  ),
+
+  tar_combine(
+    cd1_counties,
+    tar_select_targets(
+      cleaned_counties, 
+      one_of(
+        counties |> 
+          filter(congressional_district == 1) |> 
+          pull(results_target_name)
+      )
+    ),
+    command = list(!!!.x)
+  ),
+
+  tar_combine(
+    cd2_counties,
+    tar_select_targets(
+      cleaned_counties, 
+      one_of(
+        counties |> 
+          filter(congressional_district == 2) |> 
+          pull(results_target_name)
+      )
+    ),
+    command = list(!!!.x)
+  ),
+
+  # Aggregate all presidential-level results and store it as a pinned object
+  tar_target(
+    results_presidential, 
+    build_presidential_results(presidential_counties)
+  ),
+  tar_target(
+    results_presidential_pinned, 
+    pin_object(results_presidential, "results_presidential")
+  ),
+
+  # Aggregate the two congressional district-level results and store them as pinned objects
+  tar_target(results_cd1, build_cd_results(cd1_counties, "District 1")),
+  tar_target(results_cd1_pinned, pin_object(results_cd1, "results_cd1")),
+
+  tar_target(results_cd2, build_cd_results(cd2_counties, "District 2")),
+  tar_target(results_cd2_pinned, pin_object(results_cd2, "results_cd2"))
 )

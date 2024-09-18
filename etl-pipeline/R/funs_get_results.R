@@ -30,3 +30,21 @@ pin_object <- function(x, name) {
   board <- board_folder("../pins")
   board |> pin_write(x, name = name, type = "qs")
 }
+
+build_presidential_results <- function(x) {
+  # Do stuff here to get presidential results from each of the counties
+  all_counties <- bind_rows(x)
+
+  total <- sum(all_counties$vote_total)
+
+  return(total)
+}
+
+build_cd_results <- function(x, district) {
+  # Do stuff here to get congressional results from each of the counties
+  all_counties <- bind_rows(x)
+
+  total <- sum(all_counties$vote_total)
+
+  return(lst(district, total))
+}
