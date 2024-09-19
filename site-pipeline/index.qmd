@@ -3,3 +3,29 @@ title: A fake dashboard
 ---
 
 Example website.
+
+
+```{r}
+library(leaflet)
+library(pins)
+
+board <- board_folder("../pins")
+
+example_map <- board |> pin_read("example_map")
+example_map
+```
+
+
+```{r}
+example_map
+```
+
+
+```{r}
+example_map
+```
+
+
+```{r}
+example_map
+```
