@@ -1,0 +1,21 @@
+---
+title: President
+---
+
+```{r}
+#| include: false
+
+library(tidyverse)
+library(scales)
+library(pins)
+
+board <- board_folder("../pins")
+```
+
+```{r}
+#| include: false
+
+pres_results <- board |> pin_read("results_presidential")
+```
+
+Total votes: `r label_comma()(pres_results)`

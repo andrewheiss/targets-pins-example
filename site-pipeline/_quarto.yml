@@ -1,0 +1,16 @@
+project:
+  type: website
+
+# execute:
+#   freeze: auto
+
+website:
+  title: "Example site"
+
+  navbar:
+    pinned: true
+    right:
+      - presidential.qmd
+      - cd1.qmd
+      - cd2.qmd
+      - counties.qmd

@@ -1,0 +1,21 @@
+---
+title: Congressional district 1
+---
+
+```{r}
+#| include: false
+
+library(tidyverse)
+library(scales)
+library(pins)
+
+board <- board_folder("../pins")
+```
+
+```{r}
+#| include: false
+
+cd1_results <- board |> pin_read("results_cd1")
+```
+
+Total votes for `r cd1_results$district`: `r label_comma()(cd1_results$total)`

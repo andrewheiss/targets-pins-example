@@ -1,0 +1,21 @@
+---
+title: Congressional district 2
+---
+
+```{r}
+#| include: false
+
+library(tidyverse)
+library(scales)
+library(pins)
+
+board <- board_folder("../pins")
+```
+
+```{r}
+#| include: false
+
+cd2_results <- board |> pin_read("results_cd2")
+```
+
+Total votes for `r cd2_results$district`: `r label_comma()(cd2_results$total)`

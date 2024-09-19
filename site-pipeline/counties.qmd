@@ -1,0 +1,75 @@
+---
+title: County results
+---
+
+```{r}
+#| include: false
+
+library(tidyverse)
+library(scales)
+library(pins)
+
+board <- board_folder("../pins")
+```
+
+
+```{r}
+#| include: false
+
+ada <- board |> pin_read("ada_cleaned")
+bannock <- board |> pin_read("bannock_cleaned")
+bonneville <- board |> pin_read("bonneville_cleaned")
+canyon <- board |> pin_read("canyon_cleaned")
+kootenai <- board |> pin_read("kootenai_cleaned")
+madison <- board |> pin_read("madison_cleaned")
+twin_falls <- board |> pin_read("twin_falls_cleaned")
+```
+
+
+## `r ada$county`
+
+Last updated: `r format(ymd_hms(ada$timestamp), "%B %d, %Y at %I:%m %p")`
+
+Total votes: `r label_comma()(ada$vote_total)`
+
+
+## `r bannock$county`
+
+Last updated: `r format(ymd_hms(bannock$timestamp), "%B %d, %Y at %I:%m %p")`
+
+Total votes: `r label_comma()(bannock$vote_total)`
+
+
+## `r bonneville$county`
+
+Last updated: `r format(ymd_hms(bonneville$timestamp), "%B %d, %Y at %I:%m %p")`
+
+Total votes: `r label_comma()(bonneville$vote_total)`
+
+
+## `r canyon$county`
+
+Last updated: `r format(ymd_hms(canyon$timestamp), "%B %d, %Y at %I:%m %p")`
+
+Total votes: `r label_comma()(canyon$vote_total)`
+
+
+## `r kootenai$county`
+
+Last updated: `r format(ymd_hms(kootenai$timestamp), "%B %d, %Y at %I:%m %p")`
+
+Total votes: `r label_comma()(kootenai$vote_total)`
+
+
+## `r madison$county`
+
+Last updated: `r format(ymd_hms(madison$timestamp), "%B %d, %Y at %I:%m %p")`
+
+Total votes: `r label_comma()(madison$vote_total)`
+
+
+## `r twin_falls$county`
+
+Last updated: `r format(ymd_hms(twin_falls$timestamp), "%B %d, %Y at %I:%m %p")`
+
+Total votes: `r label_comma()(twin_falls$vote_total)`
