@@ -114,6 +114,8 @@ list(
   tar_target(results_cd2, build_cd_results(cd2_counties, "District 2")),
   tar_target(results_cd2_pinned, pin_object(results_cd2, "results_cd2")),
 
+  tar_target(close_races, build_close_race(presidential_counties)),
+
   # Make a leaflet map here
   tar_target(example_map, make_example_map()),
   tar_target(example_map_pinned, pin_object(example_map, "example_map"))

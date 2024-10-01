@@ -48,3 +48,14 @@ build_cd_results <- function(x, district) {
 
   return(lst(district, total))
 }
+
+build_close_race <- function(x) {
+  # Do stuff here to determine which races are close
+  all_counties <- bind_rows(x)
+
+  close_races <- all_counties |> 
+    filter(vote_total <= 10000)
+
+  return(close_races
+)
+}
