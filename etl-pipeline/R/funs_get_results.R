@@ -56,6 +56,13 @@ build_close_race <- function(x) {
   close_races <- all_counties |> 
     filter(vote_total <= 10000)
 
-  return(close_races
-)
+  return(close_races)
+}
+
+make_huge_thing <- function() {
+  set.seed(1234)
+
+  blah <- tibble(x = rnorm(100000000))
+
+  return(blah)
 }

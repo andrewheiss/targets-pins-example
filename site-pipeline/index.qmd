@@ -15,6 +15,11 @@ example_map <- board |> pin_read("example_map")
 example_map
 ```
 
+```{r}
+huge_thing <- board |> pin_read("huge_thing")
+
+plot(density(huge_thing$x))
+```
 
 ```{r}
 example_map

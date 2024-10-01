@@ -118,5 +118,9 @@ list(
 
   # Make a leaflet map here
   tar_target(example_map, make_example_map()),
-  tar_target(example_map_pinned, pin_object(example_map, "example_map"))
+  tar_target(example_map_pinned, pin_object(example_map, "example_map")),
+
+  # Huge object
+  tar_target(huge_thing, make_huge_thing()),
+  tar_target(huge_thing_pinned, pin_object(huge_thing, "huge_thing"))
 )
